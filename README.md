@@ -1,19 +1,29 @@
 # AI SDLC
 
-Magyar nyelvű, interaktív útmutató az AI-natív szoftverfejlesztéshez.
+Magyar nyelvű oldal az AI-val végzett fejlesztésről. Az ajánlott indulás: ChatGPT Plus, a hozzá tartozó Codex és a meglévő projekt.
 
 **Élő oldal:** https://kasznare.github.io/AI-SDLC/
 
 ## Tartalom
 
-- Emberi irányítás, kontextus és bizonyítékalapú átadás.
+- Konkrét beállítások ChatGPT-fiókhoz, projekthez, modellhez és jogosultságokhoz.
+- Álláspont a prompt engineering hype-járól, feladatleírási példával.
 - Hatlépéses, billentyűzettel is használható fejlesztési ciklus.
 - Új funkció, hibajavítás és refaktorálás szemléltető példái.
 - Felelősségek, minőségi kapuk, jogosultságok és mérés.
-- Letölthető és másolható Markdown briefsablon.
-- Pilot-ellenőrzőlista, helyi böngészős mentéssel.
+- Letölthető és másolható rövid Markdown feladatsablon.
+- Az első feladat előtti ellenőrzőlista, helyi böngészős mentéssel.
+- Calendly időpontfoglalás a fejlécből, a nyitórészből és a kapcsolatfelvételi részből.
 
-A javasolt működési modell eszközfüggetlen; a példák nem valós agentfuttatások eredményei. Az oldal nem hív AI API-t, és nem igényel API-kulcsot.
+A példák nem valódi agentfuttatások eredményei. Az oldal nem hív AI API-t, és nem igényel API-kulcsot. Az előfizetésről és indulásról szóló állítások mellett hivatalos OpenAI-források találhatók; a prompt engineeringről szóló értékelés az oldal álláspontja.
+
+## Calendly
+
+A foglalási gombok közvetlenül a megadott 30 perces eseményre mutatnak, új lapon. Nincs widget, külső script vagy naptárbetöltés az oldal megnyitásakor; API-kulcs sem szükséges.
+
+Az esemény URL-je: `https://calendly.com/andraskasznar/30min`.
+
+Átnevezéskor a `site/index.html` három `data-booking` linkjének `href` értékét kell frissíteni. A Calendly **Settings → My link** alatt a saját URL, az esemény **More options → Booking page options** részében a `30min` végződés is módosítható. A régi link nem irányít át automatikusan az újra.
 
 ## Helyi futtatás
 

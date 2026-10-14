@@ -59,31 +59,31 @@ const scenarios = {
     file: "feature-brief.md", name: "Rendelések exportálása CSV-be",
     description: "Az ügyfélszolgálat a szűrt rendeléslistát táblázatban szeretné feldolgozni.",
     criteria: ["Csak a jogosult felhasználó exportálhat.", "A fájl a szűrt listát, helyes ékezetekkel tartalmazza.", "Az üres lista és a képletként értelmezhető mező is kezelt."],
-    plan: "Meglévő jogosultságkezelés, rendelés API és exportformátum feltérképezése.",
-    build: "Kis PR: export végpont, felületi gomb és a kapcsolódó tesztek.",
-    proof: "Jogosultsági és CSV-tesztek, böngészős letöltéspróba, áttekinthető diff.",
-    decision: "A formátum és az adatvédelmi hatókör review-ja; utána engedélyezett kiadás.",
-    result: "A cél a használható, biztonságos export. A kód ennek az egyik eszköze."
+    plan: "Megnézi, hogyan működik a jogosultság és a rendeléslista lekérdezése.",
+    build: "Hozzáadja az exportot, a letöltésgombot és a kapcsolódó teszteket.",
+    proof: "Lefuttatja a jogosultsági és CSV-teszteket, majd böngészőből kipróbálja a letöltést.",
+    decision: "Átnézed a fájlformátumot és azt, milyen adat kerül az exportba.",
+    result: "Akkor kész, ha a jogosult felhasználó a megfelelő adatokat tudja letölteni."
   },
   bug: {
     file: "bug-brief.md", name: "Dupla rendelés beküldésének javítása",
     description: "Lassú hálózatnál az ismételt kattintás két rendelést hozhat létre.",
     criteria: ["Azonos kérés ismétlése egyetlen rendelést eredményez.", "Hálózati hiba után a felhasználó biztonságosan újrapróbálkozhat.", "A párhuzamos kérések és a lejárt kulcs kezelése is tesztelt."],
-    plan: "Reprodukció, kéréskezelés és az adatbázis egyediségvédelmének feltárása.",
-    build: "Idempotenciakulcs, szerveroldali védelem és a hiba reprodukciós tesztje.",
-    proof: "A teszt a javítás előtt hibázik, utána sikeres; párhuzamos beküldés is ellenőrzött.",
-    decision: "Az adatkonzisztencia és a visszafelé kompatibilitás review-ja; rollout megfigyeléssel.",
-    result: "A cél a rendelés egyszeri létrehozása, még hálózati bizonytalanság esetén is."
+    plan: "Előidézi a hibát, és megnézi, hogyan kezeli a szerver az ismételt kérést.",
+    build: "Szerveroldali védelmet és tesztet ír az ismételt beküldésre.",
+    proof: "A teszt a javítás előtt hibázik, utána sikeres. A párhuzamos kérést is kipróbálja.",
+    decision: "Átnézed, hogy nem változott-e más működés, és figyeled a kiadás utáni rendeléseket.",
+    result: "Akkor kész, ha az ismételt beküldés sem hoz létre dupla rendelést."
   },
   refactor: {
     file: "refactor-brief.md", name: "Árkalkuláció közös modulba szervezése",
     description: "Három eltérő kódrészlet számítja ugyanazt az árat; az új szabályok nehezen vezethetők be.",
     criteria: ["A meglévő üzleti viselkedés és API változatlan.", "A kerekítés, kedvezmények és szélső esetek teszteltek.", "A megállapodott teljesítménykeret nem sérül."],
-    plan: "Hívási helyek és árképzési szabályok feltárása; a jelenlegi viselkedés rögzítése tesztekkel.",
-    build: "Közös árkalkulációs modul; a hívási helyek fokozatos átállítása kis diffekkel.",
-    proof: "Viselkedésmegőrző és regressziós tesztek, API-ellenőrzés és összehasonlító teljesítménymérés.",
-    decision: "A szabályok és a diff review-ja; kiadás a meglévő monitorozás mellett.",
-    result: "A cél az egyszerűbb karbantartás, megőrzött üzleti viselkedéssel."
+    plan: "Megkeresi a három hívási helyet, és tesztekkel rögzíti a mostani árképzést.",
+    build: "Közös modulba teszi a számítást, és egyenként átállítja a hívási helyeket.",
+    proof: "Összehasonlítja a régi és új eredményeket, futtatja a teszteket és méri a teljesítményt.",
+    decision: "Átnézed az árképzési szabályokat és a kódváltozást, majd engedélyezed a kiadást.",
+    result: "Akkor kész, ha ugyanazt az árat egyszerűbb, közös kód számítja ki."
   }
 };
 const scenarioButtons = [...document.querySelectorAll("[data-scenario]")];
@@ -107,8 +107,8 @@ function updateChecklist() {
   const completed = checks.filter(check => check.checked).length;
   document.querySelector("#checklist-count").textContent = `${completed} / ${checks.length}`;
   document.querySelector("#checklist-message").textContent = completed === checks.length
-    ? "A pilot előkészítve. Indulhat az első kör."
-    : completed === 0 ? "Haladj lépésről lépésre." : `Még ${checks.length - completed} lépés a pilot előkészítéséhez.`;
+    ? "Megvan minden. Indulhat az első feladat."
+    : completed === 0 ? "Jelöld, ami már megvan." : `Még ${checks.length - completed} pont van hátra.`;
 }
 function saveChecklist() {
   try {
@@ -138,7 +138,7 @@ document.querySelector("#copy-brief").addEventListener("click", async () => {
     if (!response.ok) throw new Error("Template unavailable");
     const template = await response.text();
     await navigator.clipboard.writeText(template);
-    status.textContent = "A briefsablon a vágólapra került.";
+    status.textContent = "A feladatsablon a vágólapra került.";
   } catch {
     status.textContent = "A másolás nem sikerült. A letöltés gombbal elérheted a sablont.";
   }
