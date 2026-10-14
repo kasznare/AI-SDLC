@@ -14,6 +14,8 @@ Magyar nyelvű oldal az AI-val végzett fejlesztésről. Az ajánlott indulás: 
 - Letölthető és másolható rövid Markdown feladatsablon.
 - Az első feladat előtti ellenőrzőlista, helyi böngészős mentéssel.
 - Három Calendly alkalom: 30 perces intro, egyórás elemzés és kétórás gyakorlati tréning.
+- Gyakori kérdések a meglévő kódról, az AGENTS.md-ről és az AI által írt kód ellenőrzéséről.
+- Kasznár András bemutatkozása a megadott szakmai tapasztalat alapján.
 
 A példák nem valódi agentfuttatások eredményei. Az oldal nem hív AI API-t, és nem igényel API-kulcsot. Az előfizetésről és indulásról szóló állítások mellett hivatalos OpenAI-források találhatók; a prompt engineeringről szóló értékelés az oldal álláspontja.
 
@@ -46,7 +48,41 @@ python3 scripts/check_site.py
 node --check site/app.js
 ```
 
-Az első ellenőrzés a HTML struktúráját, az egyedi azonosítókat, a helyi fájlokat, az anchorokat és az ARIA-hivatkozásokat ellenőrzi. A workflow ezt deploy előtt is futtatja. A vizuális és interakciós ellenőrzést valódi böngészőben kell végezni.
+Az első ellenőrzés a HTML struktúráját, az egyedi azonosítókat, a helyi fájlokat, az anchorokat és az ARIA-hivatkozásokat ellenőrzi. A cím, a canonical URL, a megosztási metaadatok, a PNG mérete, a JSON-LD és a sitemap is ellenőrzött. A workflow ezt deploy előtt is futtatja. A vizuális és interakciós ellenőrzést valódi böngészőben kell végezni.
+
+## SEO és Google Search Console
+
+- Magyar, témát leíró oldalcím és meta description.
+- Canonical URL: `https://kasznare.github.io/AI-SDLC/`, paraméterek és anchor nélkül.
+- Open Graph és Twitter megosztási adatok, 1200 × 630 pixeles helyi PNG-vel.
+- WebSite, WebPage és Person JSON-LD, a látható tartalomhoz igazítva.
+- A kérdés–válasz rész teljes szövege a HTML-ben van, JavaScript nélkül is olvasható.
+- Sitemap: `https://kasznare.github.io/AI-SDLC/sitemap.xml`. A szakaszok anchorjai nem külön oldalak, ezért nem kerülnek bele.
+
+Kézi beállítás a tulajdonos Google-fiókjában:
+
+1. A [Google Search Console-ban](https://search.google.com/search-console) adj hozzá **URL-prefix** tulajdont a canonical címmel. A `github.io` DNS-éhez nincs szükség hozzáférésre.
+2. Válaszd a **HTML tag** ellenőrzési módszert. A kapott `google-site-verification` meta tag kerülhet a `site/index.html` fejléce alá, majd deploy után elvégezhető az ellenőrzés.
+3. Küldd be a `sitemap.xml` fájlt a **Sitemaps** menüben.
+4. Az **URL Inspection** alatt ellenőrizd a főoldalt, és kérj indexelést. A hitelesítés, a beküldés és az indexelés állapota jelenleg nincs a repositoryból igazolva.
+
+A `/AI-SDLC/robots.txt` nem a host gyökerében lenne, ezért a Google nem ezt használná. Itt a sitemap Search Console-beküldése a megfelelő út; a hostszintű robots.txt-t külön, a `kasznare.github.io` root webhelyén lehet kezelni.
+
+Új tartalmi oldalnál frissítsd a sitemapet. A `lastmod` a tartalom érdemi frissítésének dátuma legyen. CSS-változtatásnál a stylesheet URL `v` paraméterét, új megosztási képnél az image URL-t érdemes verziózni, hogy a korábbi gyorsítótár ne mutasson régi változatot.
+
+## Következő tartalmi témák
+
+Ezek szerkesztési javaslatok, nem mért keresési volumenek:
+
+| Sorrend | Javasolt útmutató | Mit mutasson meg? |
+| --- | --- | --- |
+| 1 | Codex használata meglévő projektben | Egy kis hibajavítás a projekt megnyitásától a teszteredményig. |
+| 2 | Mit írj az AGENTS.md-be? | Rövid szabályfájl, tesztparancsok, jóváhagyások, gyakori hibák. |
+| 3 | AI által írt kód ellenőrzése | Diff, tesztek, kézi próba, és a nem ellenőrzött részek átadása. |
+| 4 | AI bevezetése fejlesztőcsapatban | Review, közös sztenderdek, felelősség és egy kisebb próba értékelése. |
+| 5 | Prompt engineering: mi segít ténylegesen? | Konkrét feladatleírások és projektkontextus, példákkal. |
+
+Valós esettanulmányhoz saját, megosztható projekt és ellenőrizhető eredmény kell. A meglévő szemléltető példákból nem lesz automatikusan ügyfélreferencia.
 
 ## GitHub Pages automatikus deploy
 
