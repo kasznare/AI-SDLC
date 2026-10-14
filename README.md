@@ -13,17 +13,23 @@ Magyar nyelvű oldal az AI-val végzett fejlesztésről. Az ajánlott indulás: 
 - Felelősségek, minőségi kapuk, jogosultságok és mérés.
 - Letölthető és másolható rövid Markdown feladatsablon.
 - Az első feladat előtti ellenőrzőlista, helyi böngészős mentéssel.
-- Calendly időpontfoglalás a fejlécből, a nyitórészből és a kapcsolatfelvételi részből.
+- Három Calendly alkalom: 30 perces intro, egyórás elemzés és kétórás gyakorlati tréning.
 
 A példák nem valódi agentfuttatások eredményei. Az oldal nem hív AI API-t, és nem igényel API-kulcsot. Az előfizetésről és indulásról szóló állítások mellett hivatalos OpenAI-források találhatók; a prompt engineeringről szóló értékelés az oldal álláspontja.
 
 ## Calendly
 
-A foglalási gombok közvetlenül a megadott 30 perces eseményre mutatnak, új lapon. Nincs widget, külső script vagy naptárbetöltés az oldal megnyitásakor; API-kulcs sem szükséges.
+A fejléc és a nyitórész az intróra mutat. A kapcsolatfelvételi részben mindhárom alkalom külön foglalható, új lapon. Nincs widget, külső script vagy naptárbetöltés az oldal megnyitásakor; API-kulcs sem szükséges.
 
-Az esemény URL-je: `https://calendly.com/andraskasznar/30min`.
+| Alkalom | Időtartam | URL |
+| --- | --- | --- |
+| Intro | 30 perc | `https://calendly.com/andraskasznar/30min` |
+| Elemzés | 1 óra | `https://calendly.com/andraskasznar/elemzes` |
+| Gyakorlati tréning | 2 óra | `https://calendly.com/andraskasznar/gyakorlati-ai-nativ-fejlesztesi-trening` |
 
-Átnevezéskor a `site/index.html` három `data-booking` linkjének `href` értékét kell frissíteni. A Calendly **Settings → My link** alatt a saját URL, az esemény **More options → Booking page options** részében a `30min` végződés is módosítható. A régi link nem irányít át automatikusan az újra.
+Átnevezéskor a `site/index.html` megfelelő `data-booking="intro"`, `data-booking="analysis"` vagy `data-booking="training"` linkjeinek `href` értékét kell frissíteni. Az intrónak három, a másik két alkalomnak egy-egy linkje van. A Calendly **Settings → My link** alatt a saját URL, az esemény **More options → Booking page options** részében az esemény végződése módosítható. A régi link nem irányít át automatikusan az újra.
+
+A foglalható napokat és órákat csak a Calendly tartalmazza. Az oldalon nincs rögzített időbeosztás; a naptár módosításához nem kell új deploy.
 
 ## Helyi futtatás
 
