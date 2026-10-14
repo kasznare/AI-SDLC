@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f5f1">
+  <meta name="description" content="Az AI-natív fejlesztés működési modellje: emberi irányítás, kontextussal dolgozó agentek, ellenőrizhető eredmények és folyamatos visszacsatolás.">
+  <meta property="og:title" content="AI SDLC — Az ember irányt ad. Az AI előrevisz.">
+  <meta property="og:description" content="Gyakorlati, interaktív útmutató az AI-natív szoftverfejlesztéshez.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="hu_HU">
+  <title>AI SDLC — Az AI-natív fejlesztés működési modellje</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#tartalom">Ugrás a tartalomra</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#" aria-label="AI SDLC kezdőlap"><img src="./favicon.svg" width="32" height="32" alt=""><span>AI <strong>SDLC</strong></span><span class="brand-note">A FEJLESZTÉS ÚJ MUNKARENDE</span></a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Navigáció megnyitása"><span></span><span></span></button>
+      <nav id="main-nav" aria-label="Fő navigáció">
+        <a href="#szemlelet">Szemlélet</a><a href="#folyamat">Munkafolyamat</a><a href="#felelossegek">Felelősségek</a><a class="nav-cta" href="#kezdd-el">Kezdd el <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main id="tartalom">
+    <section class="hero container" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="eyebrow-mark" aria-hidden="true"></span> ÚTMUTATÓ AZ AI-NATÍV FEJLESZTÉSHEZ</p>
+        <h1 id="hero-title">Az ember<br>irányt ad.<br><span>Az AI előrevisz.</span></h1>
+        <p class="hero-description">A fejlesztés több a kódírásnál. Építs olyan munkafolyamatot, ahol az ember meghatározza a célt, az AI elvégzi a munkát, az eredményt pedig bizonyíték igazolja.</p>
+        <div class="hero-actions"><a class="button button-primary" href="#folyamat">Fedezd fel a folyamatot <span aria-hidden="true">↗</span></a><a class="text-link" href="#szemlelet">Először a szemlélet <span aria-hidden="true">↓</span></a></div>
+        <div class="hero-values"><span>Célvezérelt</span><span>Ellenőrizhető</span><span>Emberi kontroll</span></div>
+      </div>
+      <figure class="system-map" aria-label="Működési modell: az ember célt és korlátokat ad; az AI kontextussal és eszközökkel tervez, épít és ellenőriz; a bizonyíték visszacsatol az emberhez.">
+        <div class="map-heading"><span><span class="small-cross" aria-hidden="true">✳</span> HUMAN × AI</span><span class="map-tag">KÖZÖS MUNKATÉR</span></div>
+        <svg class="map-lines" viewBox="0 0 520 440" fill="none" aria-hidden="true">
+          <defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0 0 6 3 0 6" stroke="#9b97b4" stroke-width="1.2"/></marker></defs>
+          <path d="M260 120V182M260 275V335" stroke="#9b97b4" stroke-width="1.5" marker-end="url(#arrow)"/>
+          <path d="M92 235H145M428 235H375" stroke="#b7b2ce" stroke-width="1.5" marker-end="url(#arrow)"/>
+          <path d="M359 366H465V94H367" stroke="#b7b2ce" stroke-width="1.5" stroke-dasharray="5 6" marker-end="url(#arrow)"/>
+        </svg>
+        <div class="map-node human-node"><span class="node-icon" aria-hidden="true">◎</span><div><span class="node-kicker">EMBER</span><strong>Cél + döntések</strong></div><span class="node-dot" aria-hidden="true"></span></div>
+        <div class="context-node"><span class="mini-icon" aria-hidden="true">≡</span><strong>Kontextus</strong><span>Kód · tudás · szabályok</span></div>
+        <div class="agent-node"><div class="agent-orb" aria-hidden="true">✳</div><span class="node-kicker">AI AGENT</span><strong>Tervez. Épít.<br>Ellenőriz.</strong><div class="agent-label">eszközök + visszacsatolás</div></div>
+        <div class="tools-node"><span class="mini-icon" aria-hidden="true">⌘</span><strong>Eszközök</strong><span>Repo · teszt · CI</span></div>
+        <div class="map-node proof-node"><span class="proof-icon" aria-hidden="true">✓</span><div><span class="node-kicker">BIZONYÍTÉK</span><strong>Tesztek + diff + mérés</strong></div></div>
+        <span class="feedback-label">visszajelzés</span>
+        <figcaption><span class="map-caption-line"></span> Minden kör jobb kontextussal indul.</figcaption>
+      </figure>
+      <div class="hero-foot"><span>EGY KÖZÖS CÉL. KÉT KÜLÖNBÖZŐ SZEREP.</span><a href="#szemlelet" aria-label="Tovább a szemlélethez">Görgess tovább <span aria-hidden="true">↓</span></a></div>
+    </section>
+
+    <section id="szemlelet" class="section container" aria-labelledby="mindset-title">
+      <div class="section-heading"><div><p class="eyebrow">01 / A SZEMLÉLET</p><h2 id="mindset-title">Az AI-natív fejlesztés<br>egy működési rendszer.</h2></div><p>Az AI a teljes fejlesztési ciklus résztvevője. Ehhez világos feladat, használható kontextus és előre rögzített ellenőrzési feltételek kellenek.</p></div>
+      <div class="principles">
+        <article><span class="principle-number">01</span><div class="principle-symbol" aria-hidden="true">↗</div><h3>A cél az input.</h3><p>Írd le, milyen felhasználói problémát oldunk meg, hol a feladat határa, és miből fogjuk tudni, hogy elkészült.</p><span class="principle-note">Szándék → elfogadási feltételek</span></article>
+        <article><span class="principle-number">02</span><div class="principle-symbol" aria-hidden="true">⌘</div><h3>A kontextus a munkatér.</h3><p>A kód, az architektúra, a döntések és a futtatható eszközök együtt teszik lehetővé, hogy az agent önállóan haladjon.</p><span class="principle-note">Repository → közös tudás</span></article>
+        <article><span class="principle-number">03</span><div class="principle-symbol" aria-hidden="true">✓</div><h3>A bizonyíték az output.</h3><p>A kész változtatás mellé teszteredmény, áttekinthető diff és ismert korlátok tartoznak. Ezek alapján születik döntés.</p><span class="principle-note">Állítás → ellenőrzött eredmény</span></article>
+      </div>
+      <div class="mindset-callout"><span aria-hidden="true">✳</span><p><strong>Az autonómia mértéke a kockázathoz igazodjon.</strong> Egy dokumentációs javítás és egy éles adatmigráció eltérő jogosultságot és kontrollt igényel.</p></div>
+    </section>
+
+    <section id="folyamat" class="workflow section" aria-labelledby="workflow-title">
+      <div class="container">
+        <div class="section-heading"><div><p class="eyebrow">02 / A MUNKAFOLYAMAT</p><h2 id="workflow-title">Egy ciklus.<br>Hat tudatos lépés.</h2></div><div><p>Válassz egy lépést, és nézd meg, mit csinál az ember, mit végez az AI, és mi az átadás feltétele.</p><span class="workflow-hint"><span aria-hidden="true">↻</span> A visszajelzésből új feladat lesz.</span></div></div>
+        <div class="cycle-tabs" role="tablist" aria-label="A fejlesztési ciklus lépései">
+          <button id="step-tab-0" role="tab" aria-selected="true" aria-controls="step-panel-0" data-step="0"><span>01</span>Szándék</button>
+          <button id="step-tab-1" role="tab" aria-selected="false" aria-controls="step-panel-1" tabindex="-1" data-step="1"><span>02</span>Kontextus</button>
+          <button id="step-tab-2" role="tab" aria-selected="false" aria-controls="step-panel-2" tabindex="-1" data-step="2"><span>03</span>Építés</button>
+          <button id="step-tab-3" role="tab" aria-selected="false" aria-controls="step-panel-3" tabindex="-1" data-step="3"><span>04</span>Ellenőrzés</button>
+          <button id="step-tab-4" role="tab" aria-selected="false" aria-controls="step-panel-4" tabindex="-1" data-step="4"><span>05</span>Kiadás</button>
+          <button id="step-tab-5" role="tab" aria-selected="false" aria-controls="step-panel-5" tabindex="-1" data-step="5"><span>06</span>Tanulás</button>
+        </div>
+        <div class="step-panels">
+          <article class="step-panel" id="step-panel-0" role="tabpanel" aria-labelledby="step-tab-0" tabindex="0">
+            <div class="step-intro"><span class="step-large-number">01</span><span class="step-label">A JÓ MUNKA JÓ KÉRDÉSSEL INDUL</span><h3>Először a problémát<br>tedd egyértelművé.</h3><p>A „készíts egy funkciót” helyett adj célt, hatókört és megfigyelhető sikerkritériumokat.</p><span class="artifact"><span aria-hidden="true">↳</span> EREDMÉNY: FELADATBRIEF</span></div>
+            <div class="step-detail"><div class="role-line"><span class="role-chip human">EMBER</span><p>Meghatározza a felhasználói igényt, a prioritást, a korlátokat és az elfogadási feltételeket.</p></div><div class="role-line"><span class="role-chip ai">AI</span><p>Feltárja a hiányzó információt, pontosító kérdéseket és tesztelhető eseteket javasol.</p></div><div class="gate"><span aria-hidden="true">◇</span><div><strong>Továbbhaladási kapu</strong><p>Világos a cél és a hatókör; a kritikus nyitott kérdésekre van válasz.</p></div></div></div>
+          </article>
+          <article class="step-panel" id="step-panel-1" role="tabpanel" aria-labelledby="step-tab-1" tabindex="0">
+            <div class="step-intro"><span class="step-large-number">02</span><span class="step-label">A REPO A KÖZÖS MUNKATÉR</span><h3>Adj kontextust.<br>Kérj végrehajtható tervet.</h3><p>A releváns kód, dokumentáció és eszközök alapján az agent feltérképezi a változtatást.</p><span class="artifact"><span aria-hidden="true">↳</span> EREDMÉNY: TERV + DÖNTÉSI NAPLÓ</span></div>
+            <div class="step-detail"><div class="role-line"><span class="role-chip human">EMBER</span><p>Rögzíti az architekturális korlátokat, a jogosultságokat és azt, mely döntésekhez kell jóváhagyás.</p></div><div class="role-line"><span class="role-chip ai">AI</span><p>Megkeresi a meglévő mintákat, jelzi a függőségeket, és kis, ellenőrizhető lépésekre bontja a feladatot.</p></div><div class="gate"><span aria-hidden="true">◇</span><div><strong>Továbbhaladási kapu</strong><p>A terv belefér a hatókörbe; a szükséges eszközök és ellenőrzések rendelkezésre állnak.</p></div></div></div>
+          </article>
+          <article class="step-panel" id="step-panel-2" role="tabpanel" aria-labelledby="step-tab-2" tabindex="0">
+            <div class="step-intro"><span class="step-large-number">03</span><span class="step-label">KIS VÁLTOZTATÁSOK, GYORS VISSZAJELZÉS</span><h3>Építs kis lépésekben.<br>Ellenőrizz közben.</h3><p>Az agent izolált ágon dolgozik, futtatja a releváns ellenőrzéseket, és a hibák alapján javít.</p><span class="artifact"><span aria-hidden="true">↳</span> EREDMÉNY: KÓD + TESZTEK + DOKUMENTÁCIÓ</span></div>
+            <div class="step-detail"><div class="role-line"><span class="role-chip human">EMBER</span><p>Feloldja a valódi blokkolókat, és dönt, ha a megoldás túllépné az előre engedélyezett kereteket.</p></div><div class="role-line"><span class="role-chip ai">AI</span><p>Implementál, tesztel és javít. Független részfeladatokat csak indokolt esetben párhuzamosít.</p></div><div class="gate"><span aria-hidden="true">◇</span><div><strong>Továbbhaladási kapu</strong><p>A változtatás kicsi és áttekinthető; az előírt ellenőrzések futnak, az eltérések dokumentáltak.</p></div></div></div>
+          </article>
+          <article class="step-panel" id="step-panel-3" role="tabpanel" aria-labelledby="step-tab-3" tabindex="0">
+            <div class="step-intro"><span class="step-large-number">04</span><span class="step-label">A BIZALOM ELLENŐRZÉSBŐL ÉPÜL</span><h3>Nézd meg, valóban<br>a cél teljesült-e.</h3><p>A tesztek mellett a diffet, a felhasználói viselkedést és a rendszerszintű hatásokat is ellenőrizni kell.</p><span class="artifact"><span aria-hidden="true">↳</span> EREDMÉNY: PR + ELLENŐRZÉSI BIZONYÍTÉK</span></div>
+            <div class="step-detail"><div class="role-line"><span class="role-chip human">EMBER</span><p>Áttekinti az üzleti helyességet, a kockázatos döntéseket és az elfogadási feltételek teljesülését.</p></div><div class="role-line"><span class="role-chip ai">AI</span><p>Összegzi a diffet, bemutatja a teszteredményeket és az ismert korlátokat; külön review-t is előkészíthet.</p></div><div class="gate"><span aria-hidden="true">◇</span><div><strong>Továbbhaladási kapu</strong><p>A kötelező CI sikeres, a kritikus megállapítások rendezettek, a szükséges review megtörtént.</p></div></div></div>
+          </article>
+          <article class="step-panel" id="step-panel-4" role="tabpanel" aria-labelledby="step-tab-4" tabindex="0">
+            <div class="step-intro"><span class="step-large-number">05</span><span class="step-label">A KIADÁS IS A FOLYAMAT RÉSZE</span><h3>Adj ki kontrolláltan.<br>Legyen visszaút.</h3><p>Az engedélyezett CI/CD folyamat reprodukálható módon juttatja el a változtatást a felhasználóhoz.</p><span class="artifact"><span aria-hidden="true">↳</span> EREDMÉNY: KIADÁS + VISSZAÁLLÍTÁSI TERV</span></div>
+            <div class="step-detail"><div class="role-line"><span class="role-chip human">EMBER</span><p>A kockázati szabályok szerint engedélyezi a kiadást. Magas kockázatnál külön döntési pontot tart fenn.</p></div><div class="role-line"><span class="role-chip ai">AI</span><p>Előkészíti a release-t, ellenőrzi a deploy eredményét, és az engedélyezett keretben végez smoke tesztet.</p></div><div class="gate"><span aria-hidden="true">◇</span><div><strong>Továbbhaladási kapu</strong><p>A kiadás ellenőrzött, a megfigyelés működik, a visszaállítás módja ismert és végrehajtható.</p></div></div></div>
+          </article>
+          <article class="step-panel" id="step-panel-5" role="tabpanel" aria-labelledby="step-tab-5" tabindex="0">
+            <div class="step-intro"><span class="step-large-number">06</span><span class="step-label">AZ EREDMÉNY VISSZATÉR A RENDSZERBE</span><h3>Tanulj a működésből.<br>Frissítsd a kontextust.</h3><p>A használati tapasztalatok és hibák a következő briefet, a teszteket és a közös tudást javítják.</p><span class="artifact"><span aria-hidden="true">↳</span> EREDMÉNY: MÉRÉS + FRISSÍTETT TUDÁS</span></div>
+            <div class="step-detail"><div class="role-line"><span class="role-chip human">EMBER</span><p>Értékeli a felhasználói eredményt, kiválasztja a következő javítást, és felülvizsgálja az autonómia kereteit.</p></div><div class="role-line"><span class="role-chip ai">AI</span><p>Összegzi az engedélyezett telemetriát és visszajelzést, regressziós tesztet és dokumentációfrissítést javasol.</p></div><div class="gate"><span aria-hidden="true">◇</span><div><strong>A következő kör feltétele</strong><p>A tanulság rögzített; a következő feladat mérhető céllal és naprakész kontextussal indul.</p></div></div></div>
+          </article>
+        </div>
+        <div class="step-controls"><span><strong id="step-count">01</strong> / 06 <span class="control-note">— a fejlesztési ciklus</span></span><div><button id="prev-step" aria-label="Előző lépés" type="button">←</button><button id="next-step" aria-label="Következő lépés" type="button">→</button></div></div>
+        <noscript><p>A hat lépés JavaScript nélkül egymás alatt olvasható.</p><style>.cycle-tabs,.step-controls{display:none}.step-panel{border-bottom:1px solid #454454;margin-bottom:2rem}</style></noscript>
+      </div>
+    </section>
+
+    <section id="pelda" class="section container" aria-labelledby="example-title">
+      <div class="section-heading"><div><p class="eyebrow">03 / A GYAKORLATBAN</p><h2 id="example-title">Így lesz egy kérésből<br>ellenőrzött változtatás.</h2></div><p>Ugyanaz a működési modell, különböző feladatok. Az alábbi példák szemléltető minták, nem valós futtatási eredmények.</p></div>
+      <div class="example-switch" role="group" aria-label="Példafeladat kiválasztása"><button type="button" data-scenario="feature" aria-pressed="true">Új funkció</button><button type="button" data-scenario="bug" aria-pressed="false">Hibajavítás</button><button type="button" data-scenario="refactor" aria-pressed="false">Refaktorálás</button></div>
+      <div class="example-board" aria-live="polite" aria-atomic="true">
+        <div class="example-brief"><div class="file-label"><span aria-hidden="true">▤</span> <span id="example-file">feature-brief.md</span><span class="demo-label">PÉLDA</span></div><span class="example-kicker">A FELADAT</span><h3 id="example-name">Rendelések exportálása CSV-be</h3><p id="example-description">Az ügyfélszolgálat a szűrt rendeléslistát táblázatban szeretné feldolgozni.</p><div class="brief-rule"></div><span class="example-kicker">ELFOGADÁSI FELTÉTELEK</span><ul id="example-criteria"><li>Csak a jogosult felhasználó exportálhat.</li><li>A fájl a szűrt listát, helyes ékezetekkel tartalmazza.</li><li>Az üres lista és a képletként értelmezhető mező is kezelt.</li></ul></div>
+        <div class="example-output"><span class="example-kicker">AZ ÚT AZ ÁTADÁSIG</span><ol class="example-timeline"><li><span class="timeline-dot">1</span><div><strong>Kontextus és terv</strong><p id="example-plan">Meglévő jogosultságkezelés, rendelés API és exportformátum feltérképezése.</p></div></li><li><span class="timeline-dot">2</span><div><strong>Implementáció</strong><p id="example-build">Kis PR: export végpont, felületi gomb és a kapcsolódó tesztek.</p></div></li><li><span class="timeline-dot">3</span><div><strong>Ellenőrzési bizonyíték</strong><p id="example-proof">Jogosultsági és CSV-tesztek, böngészős letöltéspróba, áttekinthető diff.</p></div></li><li><span class="timeline-dot">4</span><div><strong>Emberi döntés</strong><p id="example-decision">A formátum és az adatvédelmi hatókör review-ja; utána engedélyezett kiadás.</p></div></li></ol><div class="example-result"><span aria-hidden="true">↳</span><p id="example-result">A cél a használható, biztonságos export. A kód ennek az egyik eszköze.</p></div></div>
+      </div>
+      <noscript><style>.example-switch{display:none}</style></noscript>
+    </section>
+
+    <section id="felelossegek" class="responsibility section" aria-labelledby="roles-title">
+      <div class="container"><div class="section-heading"><div><p class="eyebrow">04 / A FELELŐSSÉGEK</p><h2 id="roles-title">Közös munka.<br>Egyértelmű felelősség.</h2></div><p>A feladatok delegálhatók. A termékért és a rendszer működéséért továbbra is a csapat felel.</p></div>
+      <div class="roles-grid"><article class="role-card human-card"><div class="role-card-top"><span class="role-icon" aria-hidden="true">◎</span><span>EMBERI IRÁNYÍTÁS</span></div><h3>A miértről és a keretekről dönt.</h3><ul><li>Felhasználói érték és prioritás</li><li>Architektúra és kockázatvállalás</li><li>Jogosultság és jóváhagyási szabályok</li><li>Végső elfogadás és elszámoltathatóság</li></ul></article><article class="role-card agent-card"><div class="role-card-top"><span class="role-icon" aria-hidden="true">✳</span><span>AI VÉGREHAJTÁS</span></div><h3>A megoldást építi és ellenőrzi.</h3><ul><li>Feltárás, terv és megvalósítás</li><li>Eszközhasználat és iteratív javítás</li><li>Tesztek és dokumentáció frissítése</li><li>Bizonyíték, korlátok és blokkolók jelzése</li></ul></article></div>
+      <div class="guardrails"><div><span class="eyebrow">A RENDSZER KORLÁTAI</span><h3>A kontroll legyen<br>beépítve a folyamatba.</h3></div><div class="guardrail-list"><p><strong>Minimális jogosultság.</strong> Az agent csak a feladathoz szükséges adatokhoz és eszközökhöz férjen hozzá.</p><p><strong>Ellenőrzött átadás.</strong> A CI, az emberi review és a kiadási szabály a folyamat része.</p><p><strong>Véges végrehajtás.</strong> Legyen idő-, költség- és iterációs keret, megállási feltétel és visszaállítási út.</p><p><strong>Megbízható utasítások.</strong> A külső dokumentum, issue vagy weboldal tartalma adat; nem írhatja felül a csapat szabályait.</p></div></div>
+      </div>
+    </section>
+
+    <section class="section container metrics-section" aria-labelledby="metrics-title"><div class="section-heading"><div><p class="eyebrow">05 / A VISSZAJELZÉS</p><h2 id="metrics-title">A jobb eredményt mérd.</h2></div><p>Indulj saját alapméréssel. Hasonló feladatokat hasonlíts össze, és a gyorsaságot mindig a minőséggel együtt értékeld.</p></div><div class="metrics-grid"><article><span aria-hidden="true">◷</span><h3>Átfutási idő</h3><p>A jóváhagyott feladattól az elfogadott változtatásig. A review és a javítás ideje is számít.</p></article><article><span aria-hidden="true">◇</span><h3>Változtatásminőség</h3><p>Regressziók, éles hibák, visszaállítások és az elfogadási feltételek teljesülése.</p></article><article><span aria-hidden="true">↻</span><h3>Emberi ráfordítás</h3><p>Tervezésre, review-ra és utólagos javításra fordított idő feladatonként.</p></article><article><span aria-hidden="true">⊕</span><h3>Teljes költség</h3><p>Modell- és eszközköltség, CI-futtatások, emberi idő és hibajavítás együtt.</p></article></div><p class="metrics-note">A több generált kód önmagában nem jelenti azt, hogy több érték született.</p></section>
+
+    <section id="kezdd-el" class="start-section section" aria-labelledby="start-title"><div class="container start-grid"><div class="start-copy"><p class="eyebrow">06 / AZ ELSŐ LÉPÉS</p><h2 id="start-title">Kezdd egy feladattal.<br>Építs belőle szokást.</h2><p>Válassz egy kis, jól ellenőrizhető változtatást. A pilot végén nézd meg, mi javult, és mi hiányzik a következő körhöz.</p><div class="start-actions"><a class="button button-dark" href="./brief-sablon.md" download>Briefsablon letöltése <span aria-hidden="true">↓</span></a><button class="copy-button" id="copy-brief" type="button">Sablon másolása <span aria-hidden="true">⧉</span></button></div><p id="copy-status" class="copy-status" role="status"></p><span class="start-note">Markdown sablon · bármelyik fejlesztőeszközzel használható</span></div><div class="pilot-checklist"><div class="checklist-heading"><h3>Az első pilot ellenőrzőlistája</h3><span id="checklist-count">0 / 6</span></div><label><input type="checkbox" data-check="goal"><span>Van konkrét cél és elfogadási feltétel.</span></label><label><input type="checkbox" data-check="context"><span>A repo és a dokumentáció naprakész.</span></label><label><input type="checkbox" data-check="commands"><span>Az agent tudja, hogyan futtassa a teszteket.</span></label><label><input type="checkbox" data-check="limits"><span>Rögzített a jogosultság és a megállási feltétel.</span></label><label><input type="checkbox" data-check="review"><span>Van review, kiadási és visszaállítási út.</span></label><label><input type="checkbox" data-check="baseline"><span>Megvan az alapmérés és a visszajelzés helye.</span></label><div class="checklist-footer"><span id="checklist-message" role="status">Haladj lépésről lépésre.</span><button id="reset-checklist" type="button">Alaphelyzet</button></div><p class="storage-note" id="storage-note">A jelölések csak ebben a böngészőben tárolódnak.</p></div></div></section>
+
+    <section class="sources container" aria-labelledby="sources-title"><div><h2 id="sources-title">Olvass tovább</h2><p>Az oldal egy javasolt, eszközfüggetlen működési modell. A minták tovább alakíthatók a csapat kockázataihoz és munkamódjához.</p></div><div class="source-links"><a href="https://www.anthropic.com/engineering/building-effective-agents" target="_blank" rel="noopener noreferrer">Anthropic <span>Egyszerű agentminták és ellenőrzési hurkok ↗</span></a><a href="https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages" target="_blank" rel="noopener noreferrer">GitHub Docs <span>Automatikus publikálás GitHub Pagesre ↗</span></a></div></section>
+  </main>
+  <noscript><style>.copy-button,.copy-status,.checklist-footer,#checklist-count,#storage-note{display:none}</style></noscript>
+  <footer class="site-footer"><div class="container footer-inner"><a class="brand" href="#" aria-label="AI SDLC kezdőlap"><img src="./favicon.svg" width="26" height="26" alt=""><span>AI <strong>SDLC</strong></span></a><span>EMBERI SZÁNDÉK. AI VÉGREHAJTÁS. ELLENŐRZÖTT EREDMÉNY.</span><a href="https://github.com/kasznare/AI-SDLC" target="_blank" rel="noopener noreferrer">Forráskód a GitHubon <span aria-hidden="true">↗</span></a></div></footer>
+</body>
+</html>
