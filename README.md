@@ -6,17 +6,17 @@ Magyar nyelvű bemutatkozó oldal vállalati AI-natív fejlesztésről, Kasznár
 
 ## Kinek szól és mit mutat be?
 
-CTO-knak, engineering leadeknek és fejlesztési vezetőknek. A bevezetés tárgya a meglévő termék és a csapat teljes fejlesztési folyamata.
+CTO-knak, engineering leadeknek és fejlesztési vezetőknek. A bevezetés tárgya a meglévő termék és a csapat teljes fejlesztési folyamata. A munkamódszer különböző eszköztárakhoz illeszkedik; a platformnevek példák, a konkrét kapcsolatok kialakítása a felmérés és a pilot része.
 
 - Backlog, kód, CI/CD, cloud és vállalati hozzáférések kapcsolódási pontjai.
-- Azure DevOps, Azure Pipelines, repositoryk és API/MCP kapcsolatok tervezése.
+- A meglévő feladatkezelők, repositoryk, pipeline-ok és belső rendszerek összekapcsolásának tervezése; kész integráció, API, MCP vagy CLI alapján.
 - Felmérés, mérhető pilot, bevezetés több csapatban és rendszeres értékelés.
 - Saját feladatokon végzett oktatás, páros munka, gyakorlás és heti esetmegbeszélés.
 - Átfutás, minőség, napi használat és elfogadott változtatásra jutó teljes költség.
 - API-tokenköltség-becslő, külön tárgyalt előfizetési és nem tokenalapú költségekkel.
 - Letölthető pilottervezési munkalap, vezetői kérdések, bemutatkozás és három foglalható alkalom.
 
-Az integrációs ábra tervezési minta, nem működő vállalati rendszer vagy ügyfélreferencia. Az oldal nem csatlakozik Azure DevOpshoz vagy AI API-hoz. Nem tartalmaz kitalált ügyféleredményt, ügyféllogót vagy megtérülési ígéretet. A műszaki háttérhez hivatalos Microsoft- és OpenAI-források kapcsolódnak.
+Az integrációs ábra tervezési minta, nem működő vállalati rendszer vagy ügyfélreferencia. Az oldal nem csatlakozik vállalati rendszerekhez vagy AI API-hoz. Nem tartalmaz kitalált ügyféleredményt, ügyféllogót vagy megtérülési ígéretet. A műszaki háttérhez hivatalos Microsoft- és OpenAI-források kapcsolódnak.
 
 ## API-tokenköltség-becslő
 
@@ -87,7 +87,7 @@ A hitelesítés és az indexelés nincs elvégezve vagy igazolva. A `/AI-SDLC/ro
 
 A következő anyagokhoz saját, megosztható projekt és ellenőrizhető adatok kellenek:
 
-1. Egy változtatás útja Azure Boards work itemtől a PR-on és pipeline-on át a kiadásig.
+1. Egy változtatás útja a feladattól a PR-on és pipeline-on át a kiadásig, a csapat meglévő eszközeivel.
 2. Pilot értékelése: átfutás, review-terhelés, minőség és teljes ráfordítás.
 3. Több csapat bevezetési tapasztalatai: közös alapok, helyi szabályok, betanulás és elakadások.
 4. Egy valós agentfutás költségbontása: modellhívások, kontextus, reasoning, cache és ismétlések.
