@@ -9,6 +9,7 @@ from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1] / "site"
+BASE = "https://kasznare.github.io/AI-SDLC/"
 
 
 class SiteParser(HTMLParser):
@@ -62,8 +63,8 @@ class SiteParser(HTMLParser):
             self.links.append(f"#{target}")
         if tag not in self.void:
             self.stack.append(tag)
-        if tag == "html" and attrs.get("lang") != "hu":
-            self.errors.append("The page must declare Hungarian as its language.")
+        if tag == "html":
+            self.language = attrs.get("lang")
         if tag == "img" and "alt" not in attrs:
             self.errors.append("Image without alt attribute")
 
@@ -90,103 +91,115 @@ class SiteParser(HTMLParser):
             self.jsonld_parts.append(data)
 
 
-parser = SiteParser()
-parser.feed((ROOT / "index.html").read_text(encoding="utf-8"))
-if parser.stack:
-    parser.errors.append(f"Unclosed tags: {parser.stack}")
-for link in parser.links:
-    url = urlsplit(link)
-    if url.scheme or url.netloc:
-        continue
-    if url.path.startswith("/"):
-        parser.errors.append(f"Root-relative URL breaks project Pages: {link}")
-    elif url.path and not (ROOT / unquote(url.path)).is_file():
-        parser.errors.append(f"Missing local file: {link}")
-    if not url.path and url.fragment and url.fragment not in parser.ids:
-        parser.errors.append(f"Missing anchor target: {link}")
 
-title = "".join(parser.title_parts).strip()
-if not title or parser.h1_count != 1:
-    parser.errors.append("The page needs a title and exactly one H1.")
-for name in ("description", "author", "twitter:card", "twitter:title", "twitter:description", "twitter:image", "twitter:image:alt"):
-    if not parser.meta.get(name):
-        parser.errors.append(f"Missing metadata: {name}")
-if "noindex" in parser.meta.get("robots", "").lower():
-    parser.errors.append("The public landing page must not contain noindex.")
-for name in ("og:title", "og:description", "og:url", "og:site_name", "og:image", "og:image:alt"):
-    if not parser.properties.get(name):
-        parser.errors.append(f"Missing Open Graph property: {name}")
+def validate_page(page, language):
+    parser = SiteParser()
+    parser.feed(page.read_text(encoding="utf-8"))
+    if parser.language != language:
+        parser.errors.append("Incorrect document language")
+    if parser.stack:
+        parser.errors.append(f"Unclosed tags: {parser.stack}")
+    for link in parser.links:
+        url = urlsplit(link)
+        if url.scheme or url.netloc:
+            continue
+        if url.path.startswith("/"):
+            parser.errors.append(f"Root-relative URL breaks project Pages: {link}")
+        elif url.path and not ((page.parent / unquote(url.path)).is_file() or (page.parent / unquote(url.path) / "index.html").is_file()):
+            parser.errors.append(f"Missing local file: {link}")
+        if not url.path and url.fragment and url.fragment not in parser.ids:
+            parser.errors.append(f"Missing anchor target: {link}")
 
-canonicals = [tag.get("href", "") for tag in parser.link_tags if "canonical" in tag.get("rel", "").split()]
-canonical = canonicals[0] if len(canonicals) == 1 else ""
-url = urlsplit(canonical)
-if not canonical or url.scheme != "https" or not url.netloc or url.query or url.fragment or not url.path.endswith("/"):
-    parser.errors.append("Use one absolute HTTPS canonical URL without a query or fragment.")
-if parser.properties.get("og:url") != canonical:
-    parser.errors.append("Open Graph URL must match the canonical URL.")
-if parser.properties.get("og:title") != title or parser.meta.get("twitter:title") != title:
-    parser.errors.append("Page, Open Graph and Twitter titles must match.")
+    title = "".join(parser.title_parts).strip()
+    if not title or parser.h1_count != 1:
+        parser.errors.append("The page needs a title and exactly one H1.")
+    for name in ("description", "author", "twitter:card", "twitter:title", "twitter:description", "twitter:image", "twitter:image:alt"):
+        if not parser.meta.get(name):
+            parser.errors.append(f"Missing metadata: {name}")
+    if "noindex" in parser.meta.get("robots", "").lower():
+        parser.errors.append("The public landing page must not contain noindex.")
+    for name in ("og:title", "og:description", "og:url", "og:site_name", "og:image", "og:image:alt"):
+        if not parser.properties.get(name):
+            parser.errors.append(f"Missing Open Graph property: {name}")
 
-image_url = parser.properties.get("og:image", "")
-if not canonical or not image_url.startswith(canonical):
-    parser.errors.append("The sharing image must be hosted under the canonical site URL.")
-else:
-    image_path = ROOT / unquote(urlsplit(image_url[len(canonical):]).path)
-    if not image_path.is_file():
-        parser.errors.append(f"Missing sharing image: {image_path.name}")
+    canonicals = [tag.get("href", "") for tag in parser.link_tags if "canonical" in tag.get("rel", "").split()]
+    canonical = canonicals[0] if len(canonicals) == 1 else ""
+    url = urlsplit(canonical)
+    if not canonical or url.scheme != "https" or not url.netloc or url.query or url.fragment or not url.path.endswith("/"):
+        parser.errors.append("Use one absolute HTTPS canonical URL without a query or fragment.")
+    if parser.properties.get("og:url") != canonical:
+        parser.errors.append("Open Graph URL must match the canonical URL.")
+    if parser.properties.get("og:title") != title or parser.meta.get("twitter:title") != title:
+        parser.errors.append("Page, Open Graph and Twitter titles must match.")
+
+    image_url = parser.properties.get("og:image", "")
+    if not canonical or not image_url.startswith(BASE):
+        parser.errors.append("The sharing image must be hosted under the canonical site URL.")
     else:
-        header = image_path.read_bytes()[:24]
-        if not header.startswith(b"\x89PNG\r\n\x1a\n") or len(header) < 24:
-            parser.errors.append("The sharing image must be a PNG.")
+        image_path = ROOT / unquote(urlsplit(image_url[len(BASE):]).path)
+        if not image_path.is_file():
+            parser.errors.append(f"Missing sharing image: {image_path.name}")
         else:
-            width, height = struct.unpack(">II", header[16:24])
-            if (str(width), str(height)) != (parser.properties.get("og:image:width"), parser.properties.get("og:image:height")):
-                parser.errors.append("Sharing image dimensions must match the Open Graph metadata.")
-if parser.meta.get("twitter:image") != image_url:
-    parser.errors.append("Twitter and Open Graph images must match.")
+            header = image_path.read_bytes()[:24]
+            if not header.startswith(b"\x89PNG\r\n\x1a\n") or len(header) < 24:
+                parser.errors.append("The sharing image must be a PNG.")
+            else:
+                width, height = struct.unpack(">II", header[16:24])
+                if (str(width), str(height)) != (parser.properties.get("og:image:width"), parser.properties.get("og:image:height")):
+                    parser.errors.append("Sharing image dimensions must match the Open Graph metadata.")
+    if parser.meta.get("twitter:image") != image_url:
+        parser.errors.append("Twitter and Open Graph images must match.")
 
-if not parser.jsonld_documents:
-    parser.errors.append("Missing JSON-LD site metadata.")
-for raw in parser.jsonld_documents:
-    try:
-        data = json.loads(raw)
-        graph = data.get("@graph", [])
-        types = {item.get("@type") for item in graph}
-        if data.get("@context") != "https://schema.org" or not {"WebSite", "WebPage", "Person"}.issubset(types):
-            parser.errors.append("JSON-LD must describe the website, page and its author.")
-        identifiers = [item.get("@id") for item in graph]
-        if len(set(identifiers)) != len(identifiers):
-            parser.errors.append("Duplicate JSON-LD identifiers.")
-        for item in graph:
-            if item.get("@type") in {"WebSite", "WebPage"} and item.get("url") != canonical:
-                parser.errors.append("JSON-LD page URLs must match the canonical URL.")
-            if item.get("@type") == "WebPage" and item.get("name") != title:
-                parser.errors.append("JSON-LD page title must match the visible page title.")
-    except (ValueError, TypeError, AttributeError):
-        parser.errors.append("Invalid JSON-LD metadata.")
+    if not parser.jsonld_documents:
+        parser.errors.append("Missing JSON-LD site metadata.")
+    for raw in parser.jsonld_documents:
+        try:
+            data = json.loads(raw)
+            graph = data.get("@graph", [])
+            types = {item.get("@type") for item in graph}
+            if data.get("@context") != "https://schema.org" or not {"WebSite", "WebPage", "Person"}.issubset(types):
+                parser.errors.append("JSON-LD must describe the website, page and its author.")
+            identifiers = [item.get("@id") for item in graph]
+            if len(set(identifiers)) != len(identifiers):
+                parser.errors.append("Duplicate JSON-LD identifiers.")
+            for item in graph:
+                if item.get("@type") == "WebSite" and item.get("url") != BASE:
+                    parser.errors.append("JSON-LD website must point to the entry URL.")
+                if item.get("@type") == "WebPage" and item.get("url") != canonical:
+                    parser.errors.append("JSON-LD page URLs must match the canonical URL.")
+                if item.get("@type") == "WebPage" and item.get("name") != title:
+                    parser.errors.append("JSON-LD page title must match the visible page title.")
+        except (ValueError, TypeError, AttributeError):
+            parser.errors.append("Invalid JSON-LD metadata.")
+    expected_alternates = {code: BASE + code + "/" for code in ("hu", "en", "de")}
+    expected_alternates["x-default"] = BASE
+    alternates = [tag for tag in parser.link_tags if tag.get("rel") == "alternate"]
+    if len(alternates) != 4 or {tag.get("hreflang"): tag.get("href") for tag in alternates} != expected_alternates:
+        parser.errors.append("Each page needs reciprocal hu/en/de/x-default hreflang links.")
+    expected_canonical = BASE if page.parent == ROOT else BASE + language + "/"
+    if canonical != expected_canonical:
+        parser.errors.append("Wrong canonical for this language page.")
+    if page.parent != ROOT and len(parser.ids) < 25:
+        parser.errors.append("Language page must contain the complete site.")
+    return parser
 
+parsers = [validate_page(ROOT / "index.html", "en")]
+parsers += [validate_page(ROOT / code / "index.html", code) for code in ("hu", "en", "de")]
+errors = [f"{page.language}: {error}" for page in parsers for error in page.errors]
 try:
     sitemap = ET.parse(ROOT / "sitemap.xml")
     ns = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
     urls = sitemap.findall("s:url", ns)
     locations = [item.findtext("s:loc", default="", namespaces=ns) for item in urls]
-    if canonical not in locations or len(set(locations)) != len(locations):
-        parser.errors.append("Sitemap must include the canonical page once.")
-    for item, location in zip(urls, locations):
-        parsed = urlsplit(location)
-        if not canonical or not location.startswith(canonical) or parsed.query or parsed.fragment:
-            parser.errors.append(f"Invalid sitemap URL: {location}")
-        else:
-            local = ROOT / unquote(location[len(canonical):])
-            if local.is_dir():
-                local = local / "index.html"
-            if not local.is_file():
-                parser.errors.append(f"Sitemap points to a missing page: {location}")
+    expected = {BASE, *(BASE + code + "/" for code in ("hu", "en", "de"))}
+    if set(locations) != expected or len(locations) != len(expected):
+        errors.append("Sitemap must contain exactly the entry page and three language pages.")
+    for item in urls:
         modified = item.findtext("s:lastmod", namespaces=ns)
         if modified:
             date.fromisoformat(modified)
 except (OSError, ET.ParseError, ValueError):
-    parser.errors.append("Missing or invalid XML sitemap.")
-if parser.errors:
-    raise SystemExit("\n".join(parser.errors))
-print(f"OK: {len(parser.ids)} IDs, {len(parser.links)} links; SEO metadata, JSON-LD, sharing image and sitemap checked.")
+    errors.append("Missing or invalid XML sitemap.")
+if errors:
+    raise SystemExit("\n".join(errors))
+print("OK: all four pages, local assets, anchors, reciprocal hreflang, SEO, JSON-LD, sharing images and sitemap checked.")

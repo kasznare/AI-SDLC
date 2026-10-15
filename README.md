@@ -1,122 +1,119 @@
-# AI SDLC
+# Kasznár András — AI a fejlesztésben
 
-Magyar nyelvű bemutatkozó oldal vállalati AI-natív fejlesztésről, Kasznár András szakmai tapasztalatára és tanácsadási munkájára építve.
+Háromnyelvű bemutatkozó oldal vállalati AI-bevezetésről: meglévő termékek, eszközök és folyamatok, integrációk, csapatok betanítása, mérés és költségtervezés. A platformnevek példák; a megközelítés a csapat meglévő eszköztárához illeszkedik.
 
-**Élő oldal:** https://kasznare.github.io/AI-SDLC/
+- Magyar: https://kasznare.github.io/AI-SDLC/hu/
+- English: https://kasznare.github.io/AI-SDLC/en/
+- Deutsch: https://kasznare.github.io/AI-SDLC/de/
+- Automatikus nyelvválasztás: https://kasznare.github.io/AI-SDLC/
 
-## Kinek szól és mit mutat be?
+A repository neve és a Pages alapcíme megmaradt. A látható név a magyar oldalon **Kasznár András — AI a fejlesztésben**, az angol és német oldalon **András Kasznár** helyi nyelvű alcímmel.
 
-CTO-knak, engineering leadeknek és fejlesztési vezetőknek. A bevezetés tárgya a meglévő termék és a csapat teljes fejlesztési folyamata. A munkamódszer különböző eszköztárakhoz illeszkedik; a platformnevek példák, a konkrét kapcsolatok kialakítása a felmérés és a pilot része.
+## Nyelvválasztás
 
-- Backlog, kód, CI/CD, cloud és vállalati hozzáférések kapcsolódási pontjai.
-- A meglévő feladatkezelők, repositoryk, pipeline-ok és belső rendszerek összekapcsolásának tervezése; kész integráció, API, MCP vagy CLI alapján.
-- Felmérés, mérhető pilot, bevezetés több csapatban és rendszeres értékelés.
-- Saját feladatokon végzett oktatás, páros munka, gyakorlás és heti esetmegbeszélés.
-- Átfutás, minőség, napi használat és elfogadott változtatásra jutó teljes költség.
-- API-tokenköltség-becslő, külön tárgyalt előfizetési és nem tokenalapú költségekkel.
-- Letölthető pilottervezési munkalap, vezetői kérdések, bemutatkozás és három foglalható alkalom.
+Minden változat teljes, statikus HTML, saját metaadatokkal, megosztási képpel és letölthető pilottervvel. A kalkulátor feliratai, hibaüzenetei és számformátuma is a nyelvet követik.
 
-Az integrációs ábra tervezési minta, nem működő vállalati rendszer vagy ügyfélreferencia. Az oldal nem csatlakozik vállalati rendszerekhez vagy AI API-hoz. Nem tartalmaz kitalált ügyféleredményt, ügyféllogót vagy megtérülési ígéretet. A műszaki háttérhez hivatalos Microsoft- és OpenAI-források kapcsolódnak.
+Csak a nyelv nélküli kezdőcím választ automatikusan:
 
-## API-tokenköltség-becslő
+1. A korábban kézzel kiválasztott nyelv az elsődleges, ha elérhető a böngésző tárolójából.
+2. Egyébként a böngésző meghívja a `https://api.country.is/` végpontot. HU → magyar; AT/DE/CH → német; minden más ország → angol.
+3. Hálózati hiba, hibás válasz vagy legfeljebb 1,5 másodperc várakozás után a böngésző első támogatott nyelve dönt. Ha nincs magyar, angol vagy német nyelv a listában, angolra vált.
 
-A `site/cost-model.mjs` tiszta függvénye számol. A `site/app.js` kezeli a mezőket és a megjelenítést. Minden adat a böngészőben marad, nincs hálózati elküldés vagy tartós mentés.
+A közvetlen `/hu/`, `/en/`, `/de/` címek mindig az adott nyelven maradnak, országfelismerést sem indítanak. A fejléc nyelvváltója mobilon is látható. A kézi választás `localStorage`-ba kerül (`andras-kasznar-language`), az automatikus döntés nem. Tiltott tároló mellett is működnek a linkek. Az URL paraméterei és szakaszhivatkozásai megmaradnak. JavaScript nélkül a kezdőoldalon három valódi nyelvi link használható.
 
-- Havi feladat = fejlesztők × napi feladat × munkanap.
-- Havi futás = havi feladat × átlagos futás/feladat, az ismétlésekkel együtt.
-- A teljes futás inputja magában foglalja az összes modellhívás inputját; a cache-elt input ennek része, nem plusz tétel.
-- Output alatt az összes számlázott output értendő, a reasoning tokenekkel együtt.
-- Havi díj = futások × [input × ((1 − cache-arány) × inputdíj + cache-arány × cachedíj) + output × outputdíj] / 1 000 000.
+Az IP-alapú országfelismerés közelítő: VPN, vállalati hálózat vagy mobilhálózat más országot jelezhet. A böngésző nyelve nyelvi preferencia, nem tartózkodási hely. A kézi választás ezért mindig elérhető.
 
-Az alapértékek szemléltető példák. Nincs előre kiválasztott szolgáltató vagy modell, a díjak nem aktuális listaárak. Az összegek USD-ben, adók nélkül értendők. Az alapértékek eredménye 1657,50 USD/hó, 1000 tervezett feladat és 1300 futás mellett.
+### Külső szolgáltatás és adatok
 
-A becslő nem számolja a licenceket, az előfizetésben foglalt használatot, az eszközhívásokat, külön cache-írási díjat, a CI/cloud vagy a munkaidő költségét. Több modellnél modellenként kell számolni. Hiányos vagy hibás mezőknél az eredmény eltűnik; nulla aktivitásnál nincs nullával osztás. JavaScript nélkül a módszertan olvasható, a mezők letiltottak.
+A [country.is](https://country.is/) kulcs nélkül használható országfelismerő API. A kérés során a szolgáltató megkapja a látogató IP-címét; erről az oldal tájékoztatást tartalmaz. A kérés nem küld referrert vagy hitelesítő adatokat, nem kér GPS-hozzáférést, a válaszból csak az országkódot használjuk. Az alkalmazás nem tárolja az IP-címet vagy az országot. A szolgáltatás kiesése nem akadályozza az oldal megnyitását.
 
-## Calendly
+Nincs analitika, külső betűkészlet, naptárwidget vagy AI API-hívás. A kalkulátor adatai kizárólag a böngésző memóriájában maradnak, nem kerülnek hálózatra vagy tartós tárolóba. Az egyetlen mentett beállítás a kézzel választott nyelv. A korábbi checklist adatait nem olvassuk.
 
-| Alkalom | Időtartam | URL |
-| --- | --- | --- |
-| Vezetői egyeztetés / intro | 30 perc | `https://calendly.com/andraskasznar/30min` |
-| Fejlesztési működés elemzése | 1 óra | `https://calendly.com/andraskasznar/elemzes` |
-| Gyakorlati tréning a saját kódon | 2 óra | `https://calendly.com/andraskasznar/gyakorlati-ai-nativ-fejlesztesi-trening` |
+## Tartalom és fordítások szerkesztése
 
-A nyitórész és az intro kártyája az első linkre mutat, az elemzés és a tréning külön foglalható. A fejléc a kapcsolatfelvételi szakaszra visz. A foglalási linkek `data-booking` attribútummal jelöltek. Minden foglalás új lapon nyílik; nincs widget, külső naptárscript vagy API-kulcs.
+- `content/page.html`: közös szerkezet és magyar forrásszöveg; stabil szakaszazonosítók mindhárom nyelven.
+- `content/locales/en.json`, `de.json`: fordítások, magyar forrásszöveggel kulcsként. Hiányzó fordításnál a build hibával leáll.
+- `content/pilot-plan.hu.md`, `.en.md`, `.de.md`: a három letölthető munkalap.
+- `scripts/build_site.py`: nyelvi metaadatok, márkanév, nyelvváltó, kezdőlap, sitemap és generálás.
+- `site/app.js`: a kalkulátor és a mobilmenü nyelvi feliratai.
+- `site/styles.css`: közös reszponzív megjelenés és nyomtatási nézet.
 
-A foglalható napok és órák a Calendlyben állíthatók, ezek nincsenek az oldalba írva. A naptáresemények leírását és a nagyobb bevezetések kereteit külön lehet egyeztetni. Az oldal az alkalmakat belépő találkozóként mutatja be, teljes vállalati bevezetést nem ígér egy órában.
+A `site/index.html`, a három `site/<nyelv>/index.html`, a `pilot-plan.md` fájlok és a sitemap generált fájlok. A forrást módosítsd, majd futtasd:
+
+```sh
+python3 scripts/build_site.py
+```
+
+A generált fájlokat is commitoljuk, így a `site/` közvetlenül kiszolgálható. A CI ellenőrzi, hogy a forrás és a generált kimenet egyezik. Nincs npm-függőség; a generálás Python standard libraryvel működik. A megosztási képek nyelvenként `site/<nyelv>/social-preview.png` alatt vannak, 1200 × 630 pixeles PNG-ként.
 
 ## Helyi futtatás és ellenőrzés
 
-Nincs telepítendő függőség vagy buildlépés. A statikus szerverhez Python 3, a számítás ellenőrzéséhez modern Node.js kell.
-
 ```sh
+python3 scripts/build_site.py
 python3 -m http.server 8000 --directory site
 ```
 
-A helyi cím: http://localhost:8000. Az ES-modulok miatt HTTP-szervert használj.
+Például http://localhost:8000/hu/ közvetlenül a magyar változatot nyitja meg. Az ES-modulok miatt HTTP-szerver kell.
 
 ```sh
+python3 scripts/build_site.py --check
 python3 scripts/check_site.py
 node --check site/app.js
-node --test scripts/cost-model.test.mjs
+node --check site/language.js
+node --test scripts/*.test.mjs
 ```
 
-A Python-ellenőrzés a HTML szerkezetét, azonosítókat, helyi asseteket, anchorokat, SEO-metaadatokat, JSON-LD-t, a megosztási képet és a sitemapet ellenőrzi. A Node-tesztek a költségmodell cache-kezelését, ismétléseit, nulla használatát, skálázását és hibás bemeneteit vizsgálják. A workflow deploy előtt futtatja a statikus és költségmodell-ellenőrzést.
+Az ellenőrzések a teljes HTML-t, helyi fájlokat, szakaszhivatkozásokat, canonical és hreflang kapcsolatokat, JSON-LD-t, megosztási képeket és sitemapet vizsgálják. A Node-tesztek a költségszámítás és a nyelvválasztás logikáját ellenőrzik, valós külső API nélkül.
 
-Böngészős ellenőrzés: asztali és mobil elrendezés, mobilmenü, billentyűzettel használható kérdések, becslő módosítása és visszaállítása, hibás bemenet, JavaScript nélküli tartalom és foglalási linkek.
+Böngészős ellenőrzéskor vizsgálandó: három nyelv asztali és mobil elrendezése, nyelvváltó és menü, kalkulátor és visszaállítás, hibás/üres mezők, közvetlen nyelvi URL, megjegyzett választás, országfelismerés kiesése, szakaszhivatkozások és JavaScript nélküli tartalom. A country.is válaszait ehhez mockolni lehet.
 
-## SEO és Google Search Console
+## API-tokenköltség-becslő
 
-- Magyar, vállalati keresési szándékhoz igazított cím és meta description.
-- Canonical URL: `https://kasznare.github.io/AI-SDLC/`, paraméterek és anchor nélkül.
-- Open Graph és Twitter megosztási adatok, 1200 × 630 pixeles helyi PNG-vel.
-- WebSite, WebPage és Person JSON-LD a látható tartalomhoz igazítva.
-- A tartalom és a kérdések a HTML-ben olvashatók, nem JavaScriptből töltődnek be.
-- Sitemap: `https://kasznare.github.io/AI-SDLC/sitemap.xml`.
+A `site/cost-model.mjs` tiszta függvénye számol, a `site/app.js` kezeli a felületet. A három fordítás ugyanazt a számítást használja.
 
-A Search Console beállítása a tulajdonos kérésére későbbre marad. Amikor aktuális:
+- Havi feladat = fejlesztők × napi feladat × munkanap.
+- Havi futás = havi feladat × átlagos futás/feladat, ismétlésekkel együtt.
+- A teljes futás inputja az összes modellhívás összesített inputja. A cache-elt input ennek része, nem plusz tétel.
+- Output = minden számlázott output, reasoning tokenekkel együtt.
+- Havi díj = futások × [input × ((1 − cache-arány) × inputdíj + cache-arány × cachedíj) + output × outputdíj] / 1 000 000.
 
-1. A [Google Search Console-ban](https://search.google.com/search-console) adj hozzá **URL-prefix** tulajdont a canonical címmel.
-2. A **HTML tag** ellenőrzésből kapott `google-site-verification` tag kerüljön az oldal fejlécébe, majd deploy után ellenőrizhető a tulajdon.
-3. Küldd be a `sitemap.xml` fájlt, és az **URL Inspection** alatt kérj indexelést.
+Az alapértékek szemléltető példák, nem aktuális modellárak. Az eredmény **1657,50 USD/hó**, 1000 tervezett feladat és 1300 futás mellett, adók nélkül. Nem váltunk pénznemet a választott nyelv alapján.
 
-A hitelesítés és az indexelés nincs elvégezve vagy igazolva. A `/AI-SDLC/robots.txt` nem a host gyökerében lenne, ezért nem itt kezeljük. A hostszintű robots.txt külön, a `kasznare.github.io` root webhelyéhez tartozik.
+A becslő nem számolja a licenceket, az előfizetésben foglalt használatot, eszközhívásokat, külön cache-írási díjat, CI/cloud vagy munkaidő költségét. Több modellnél modellenként kell számolni. Hibás mezőknél az eredmény eltűnik, nulla aktivitásnál nincs nullával osztás. JavaScript nélkül a módszertan olvasható, a mezők letiltottak.
 
-Érdemi tartalomváltozáskor frissítsd a sitemap `lastmod` mezőjét. CSS, JavaScript és megosztási kép cseréjekor frissítsd az URL verzióparaméterét is.
+## Calendly
 
-## További szakmai tartalom
+Mindhárom nyelven a meglévő eseményeket használjuk:
 
-A következő anyagokhoz saját, megosztható projekt és ellenőrizhető adatok kellenek:
+| Alkalom | Időtartam | URL |
+| --- | --- | --- |
+| Intro / vezetői egyeztetés | 30 perc | https://calendly.com/andraskasznar/30min |
+| Fejlesztési működés elemzése | 1 óra | https://calendly.com/andraskasznar/elemzes |
+| Gyakorlati tréning | 2 óra | https://calendly.com/andraskasznar/gyakorlati-ai-nativ-fejlesztesi-trening |
 
-1. Egy változtatás útja a feladattól a PR-on és pipeline-on át a kiadásig, a csapat meglévő eszközeivel.
-2. Pilot értékelése: átfutás, review-terhelés, minőség és teljes ráfordítás.
-3. Több csapat bevezetési tapasztalatai: közös alapok, helyi szabályok, betanulás és elakadások.
-4. Egy valós agentfutás költségbontása: modellhívások, kontextus, reasoning, cache és ismétlések.
+A nyitórész és az intro kártyája az első linkre mutat. Minden foglalás új lapon nyílik. A nagyobb bevezetés terjedelmét külön kell egyeztetni. A szabad időpontokat, az események nyelvét és leírását a Calendly kezeli; ez a weboldal-fordítás nem változtatja meg a Calendly-fiók beállításait.
 
-Ezek szerkesztési javaslatok, nem kész ügyfélreferenciák vagy mért keresési volumenek.
+## SEO
 
-## GitHub Pages
+- Saját title, description, canonical és nyelvi jelölés minden változatnak.
+- Kölcsönös `hreflang="hu"`, `"en"`, `"de"`, valamint `x-default` a kezdőcímre.
+- Minden nyelv teljes tartalma közvetlenül a HTML-ben, JavaScript nélkül is olvasható.
+- WebSite, WebPage és Person JSON-LD, nyelvenkénti Open Graph és Twitter képek.
+- A sitemap tartalmazza a kezdőcímet és a három nyelvi oldalt: https://kasznare.github.io/AI-SDLC/sitemap.xml.
+- A közvetlen nyelvi oldalak nem irányítják át a keresőt vagy a látogatót.
 
-A `.github/workflows/pages.yml` minden `master` push után ellenőrzi és publikálja a `site/` tartalmát. Kézzel az **Actions → Deploy GitHub Pages → Run workflow** alatt indítható.
+A Google Search Console bekötése a tulajdonos kérésére későbbre marad. Hitelesítés vagy indexelés nincs igazolva. A repo alatti robots.txt nem lenne hostszintű, ezért nem használjuk. Tartalomváltozáskor a build scriptben a sitemap dátumát is frissíteni kell. A CSS és JavaScript verzióparaméterét a build tartalmi hash alapján kezeli.
 
-Repository-beállítások:
+## GitHub Pages és kiadás
+
+A `.github/workflows/pages.yml` minden `master` push után ellenőrzi és publikálja a `site/` tartalmát. Kézi futtatás: **Actions → Deploy GitHub Pages → Run workflow**.
+
+Szükséges meglévő beállítások:
 
 1. **Settings → Pages → Source: GitHub Actions**.
 2. A `github-pages` environment engedje a `master` ágat.
-3. A workflow és a hivatkozott GitHub Actions műveletek legyenek engedélyezve.
+3. A workflow és a használt GitHub Actions műveletek legyenek engedélyezve.
 
-Külön deploy secret vagy hosting nem kell. A kiadások sorban futnak. A helyi assetek relatív URL-t használnak, így a `/AI-SDLC/` alatti Pages-hosting működik.
+A három nyelvhez nem kell külön repository, deploy secret vagy hosting. A relatív assetlinkek és a script helyéből számolt alapcím támogatják a `/AI-SDLC/` alatti kiszolgálást. Más domainre/repositoryra költözéskor a `scripts/build_site.py` `BASE` beállítását és a statikus ellenőrzőben a várt alapcímet is módosítani kell.
 
-## Fájlok
-
-| Fájl | Szerep |
-| --- | --- |
-| `site/index.html` | Teljes tartalom, metaadatok, szemantikus szerkezet |
-| `site/styles.css` | Reszponzív megjelenés és nyomtatási nézet |
-| `site/app.js` | Mobil navigáció és költségbecslő felülete |
-| `site/cost-model.mjs` | Ellenőrzött, külön tesztelhető számítás |
-| `site/bevezetesi-terv.md` | Letölthető vállalati pilottervezési munkalap |
-| `site/brief-sablon.md` | Korábbi feladatsablon, közvetlen linken továbbra is elérhető |
-| `scripts/check_site.py` | Statikus oldal és SEO ellenőrzése |
-| `scripts/cost-model.test.mjs` | A költségszámítás automatizált ellenőrzése |
-
-Nincs külső betűkészlet, analitika, cookie vagy CDN-függőség. A korábbi checklist tárolt adatait az új oldal nem olvassa és nem használja.
+A régi `site/bevezetesi-terv.md` és `site/brief-sablon.md` közvetlen linkje továbbra is elérhető. Az integrációs ábra tervezési minta. Az oldal nem állít valótlan ügyfélreferenciát vagy garantált megtérülést.
